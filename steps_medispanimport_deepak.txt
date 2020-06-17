@@ -1,0 +1,108 @@
+1.Using windows credentials
+
+USE [master] 
+GO 
+EXEC      [dbo].[User_SP_ENABLE_BULKDB_UPDATEUSER] 
+                                @Reason = N'Medispan Update. Version', -- Please provide reason 
+                                @InsteMail = N'deepak.ramaj@eClinicalWorks.com',  --  Password will be emailed 
+                                @InstName = N'Deepak'
+GO 
+
+**************************************************************************************************************************************************
+
+2. Take existence medispan backup using CPTUpdate user.
+
+**************************************************************************************************************************************************
+3. Put bak file under BackupRestoreFiles location
+
+
+**************************************************************************************************************************************************
+4.Using windows credentials
+
+EXECUTE  [master].[dbo].[User_SP_CREATE_MEDICATION_UPGRADE_PATCHDB]
+   @InsteMail = 'deepak.ramaj@eClinicalWorks.com'
+ ,@InstName = 'Deepak R.'
+  ,@PatchID = '8428' -- PatchID has to be numeric
+  ,@MultumORMedispan = 'medispan' -- or 'multum'
+  ,@BackupFile = 'medispan.bak' -- Backup file has to placed in BackupRestoreFiles folder
+GO
+
+**************************************************************************************************************************************************
+
+
+5.Again update password of CPTUpdate as it does not have permission to access medispan_6637
+
+Using windows credentials
+
+USE [master] 
+GO 
+EXEC      [dbo].[User_SP_ENABLE_BULKDB_UPDATEUSER] 
+                                @Reason = N'Medispan Update. Version', -- Please provide reason 
+                                @InsteMail = N'deepak.ramaj@eClinicalWorks.com',  --  Password will be emailed 
+                                @InstName = N'Deepak'
+GO 
+**********************************************************************************************************************************************
+
+
+6. Exporting medispan db from medispan_6637 to medipsan db.(using CPTUpdate user)
+
+**************************************************************************************************************************************************
+
+7. Execute below SP to get list of practices using CPTUpdate User.
+
+
+Stored procedure to get the list of practices: 
+
+
+EXEC sp_MSForEachDB 'IF ''?'' LIKE ''db_%'' BEGIN Declare @version varchar (100),@apu varchar (100), @Medispan varchar (100); USE [?]; select @apu=value from itemkeys where name=''autoupgradekey''; select @Medispan=value from itemkeys where name=''EnableMedispan''; select @version=value from itemkeys where name=''clientversion''; BEGIN IF @Medispan = '''' or @apu = '''' PRINT '''' + DB_NAME() + '', '' + @version + '', APU ID is BLANK'' + '', Medispan is BLANK'' + ''''; ELSE PRINT '''' + DB_NAME() + '', '' + @version + '', '' + @apu + '', '' + @Medispan + ''''; END END '
+
+**************************************************************************************************************************************
+APU2_1.0.5.9
+
+
+
+
+Note : Going forward , Please send drug database validation request to Rinky Rathod & Abhinay Tiwari.
+
+
+BACKUP DATABASE [medispan] TO  DISK = N'\\Ecw31dd002\DBEMRFILES01\ASP31POD6B\Backups\Ad-Hoc\medispan_05232020_bkp.bak' WITH  COPY_ONLY, COMPRESSION,  STATS = 10
+GO
+
+
+
+30testpodapp03:  \\10.30.30.65\dbemrfiles01\ASP30TESTPOD1\Backups\Ad-Hoc\medispan_05032019_bkp.bak
+
+\\10.30.30.65\dbemrfiles01\ASP30TESTPOD4A\Backups\Ad-Hoc\medispan_09052019_bkp.bak
+
+\\10.11.42.225\dbemrfiles01\ASP19POD1\Backups\Ad-Hoc\medispan_05222019.bak
+
+
+\\Ecw31dd002\DBEMRFILES01\ASP31POD14A\Backups\Ad-Hoc\medispan_05092020_bkp.bak
+
+
+\\10.30.30.65\dbemrfiles01\ASP30GRP03A\Backups\Ad-Hoc\medispan_06282019_bkp.bak
+
+
+\\10.32.30.200\dbemrfiles01\ASP32POD4A\Backups\Ad-Hoc\medispan_05232020_bkp.bak	16stand
+
+\\10.33.30.200\dbemrfiles01\ASP33-POD10A\Backups\Ad-Hoc\medispan_07242019_bkp.bak	17pod1
+
+
+\\10.11.12.92\dbemrfiles01\ASP9POD2\Backups\Ad-Hoc\multum_06192019_bkp.bak
+
+\\10.30.30.65\dbemrfiles01\ASP30POD7B\Backups\Ad-Hoc\medispan_05232020_bkp.bak
+
+\\Ecw31dd002\DBEMRFILES01\ASP31POD6B\Backups\Ad-Hoc\medispan_05232020_bkp.bak
+
+\\10.32.30.200\dbemrfiles01\ASP32POD9A\Backups\Ad-Hoc\medispan_07252019_bkp.bak
+
+\\10.32.30.200\dbemrfiles01\ASP32POD12A\Backups\Ad-Hoc\multum_06042019_bkp.bak			16pod3
+
+\\10.32.30.200\dbemrfiles01\ASP32POD11A\Backups\Ad-Hoc\multum_042920191_bkp.bak
+
+\\10.33.30.200\dbemrfiles01\ASP33POD2A\Backups\Ad-Hoc\multum_05252020_bkp.bak
+
+
+\\10.30.30.65\dbemrfiles01\ASP30GRP02A\Backups\Ad-Hoc\medispan_08302019_bkp.bak
+
+\\ecw34dd001\DBEMRFILES01\ASP34POD1A\Backups\Ad-Hoc\medispan_05112020_bkp.bak

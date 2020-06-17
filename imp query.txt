@@ -1,0 +1,37 @@
+For checking multum drugs: 8415_April2020
+select * from mmw_drug_disp
+
+select * from multum_drug_name where drug_name  like '%Arazlo%'
+select * from multum_drug_name where drug_name  like '%cetirizine%'
+select * from multum_drug_name where drug_name  like '%Procysbi%'
+select * from multum_drug_name where drug_name  like '%senna%'
+select * from multum_drug_name where drug_name  like '%Vyepti%
+
+For checking medispan drugs:
+select * from mmw_drug_disp
+
+select * from mmw_drug_name where descdisplay like '%Dexabliss%'
+select * from mmw_drug_name where descdisplay like '%Arazlo%'
+select * from mmw_drug_name where descdisplay like '%Iliderm%'
+select * from mmw_drug_name where descdisplay like '%Nexletol%'
+select * from mmw_drug_name where descdisplay like '%Scenesse%'
+
+
+For checking current medispan drugdb version and issue date:
+use medispan
+Select * from ecw_drugdb_version;
+
+For checking current multum drugdb version and issue date:
+use multum;
+Select * from ecw_drugdb_version; 
+
+
+
+
+
+
+password$1   
+
+select * from items where itemName='keralac'
+
+select * from users where usertype=1 and delFlag=0 

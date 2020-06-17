@@ -1,0 +1,92 @@
+1.Using windows credentials
+
+USE [master] 
+GO 
+EXEC      [dbo].[User_SP_ENABLE_BULKDB_UPDATEUSER] 
+                                @Reason = N'Multum Update. Version', -- Please provide reason 
+                                @InsteMail = N'deepak.ramaj@eClinicalWorks.com',  --  Password will be emailed 
+                                @InstName = N'Deepak'
+GO
+ 
+***********************************************************************************************************************
+2. Take existence multum backup using CPTUpdate user.
+
+**********************************************************************************************************************
+3. Backup file has to placed in BackupRestoreFiles folder.
+
+***********************************************************************************************************************
+
+4.Using windows credentials
+
+EXECUTE  [master].[dbo].[User_SP_CREATE_MEDICATION_UPGRADE_PATCHDB]
+   @InsteMail = 'deepak.ramaj@eClinicalWorks.com'
+  ,@InstName = 'Deepak R.'
+  ,@PatchID = '8415' -- PatchID has to be numeric
+  ,@MultumORMedispan = 'multum' -- or 'multum'
+  ,@BackupFile = 'multum.bak' -- Backup file has to placed in BackupRestoreFiles folder
+GO
+
+***********************************************************************************************************************
+5.Again update password of CPTUpdate as it does not have permission to access multum_8415
+
+Using windows credentials
+
+USE [master] 
+GO 
+EXEC      [dbo].[User_SP_ENABLE_BULKDB_UPDATEUSER] 
+                                @Reason = N'Multum Update. Version', -- Please provide reason 
+                                @InsteMail = N'deepak.ramaj@eClinicalWorks.com',  --  Password will be emailed 
+                                @InstName = N'Deepak'
+GO 
+***********************************************************************************************************************
+new window
+
+6. Login using CPTUpdate user and EXPORT the multum_8415 database to multum db.
+
+***********************************************************************************************************************
+
+7. Execute below SP to get list of practices using CPTUpdate User.
+
+Stored procedure to get the list of practices: 
+
+USE master
+
+EXEC sp_MSForEachDB 'IF ''?'' LIKE ''db_%'' BEGIN Declare @version varchar (100),@apu varchar (100), @Medispan varchar (100); USE [?]; select @apu=value from itemkeys where name=''autoupgradekey''; select @Medispan=value from itemkeys where name=''EnableMedispan''; select @version=value from itemkeys where name=''clientversion''; BEGIN IF @Medispan = '''' or @apu = '''' PRINT '''' + DB_NAME() + '', '' + @version + '', APU ID is BLANK'' + '', Medispan is BLANK'' + ''''; ELSE PRINT '''' + DB_NAME() + '', '' + @version + '', '' + @apu + '', '' + @Medispan + ''''; END END '
+
+**************************************************************************************************************************************
+utility - APU2_1.0.5.9
+
+The Bulk import utility i.e. APU2_1.0.6.0 remains same.
+ 
+
+
+
+BACKUP DATABASE [multum] TO  DISK = N'\\10.32.30.200\dbemrfiles01\ASP32PODGR01B\Backups\Ad-Hoc\multum_05102020_bkp.bak' WITH COPY_ONLY, COMPRESSION,  STATS = 10
+GO
+
+\\10.11.12.92\dbemrfiles01\ASP9POD2\Backups\Ad-Hoc\multum_08262019_bkp.bak
+
+\\10.30.30.65\dbemrfiles01\ASP30TESTPOD1\Backups\Ad-Hoc\multum_03232020_bkp.bak
+
+\\10.33.30.200\dbemrfiles01\ASP33TESTPODB\Backups\Ad-Hoc\multum_03232020_bkp.bak
+
+\\10.30.30.65\dbemrfiles01\ASP30POD15B\Backups\Ad-Hoc\multum_05102020_bkp.bak
+
+\\Ecw31dd002\DBEMRFILES01\ASP31POD8B\Backups\Ad-Hoc\multum_05102020_bkp.bak
+
+\\10.32.30.200\dbemrfiles01\ASP32POD9A\Backups\Ad-Hoc\multum_05092020_bkp.bak
+
+\\10.32.30.200\dbemrfiles01\ASP32POD12A\Backups\Ad-Hoc\multum_06042019_bkp.bak			16pod3
+
+\\10.32.30.200\dbemrfiles01\ASP32POD14A\Backups\Ad-Hoc\multum_08282019_bkp.bak
+
+\\10.33.30.200\dbemrfiles01\ASP33POD3A\Backups\Ad-Hoc\multum_06032019_bkp.bak
+
+
+\\10.32.30.200\dbemrfiles01\ASP32POD11A\Backups\Ad-Hoc\multum_06042019_asp16standalone_bkp.bak
+
+
+\\10.33.30.200\dbemrfiles01\ASP33-POD11A\Backups\Ad-Hoc\multum_08282019_bkp.bak		17pod2
+
+group:
+\\10.32.30.200\dbemrfiles01\ASP32PODGR01A\Backups\Ad-Hoc\
