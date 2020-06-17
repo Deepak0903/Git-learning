@@ -23,7 +23,9 @@ Select * from ecw_drugdb_version;
 
 For checking current multum drugdb version and issue date:
 use multum;
-Select * from ecw_drugdb_version; 
+Select * from ecw_drugdb_version;
+
+hi 
 
 
 
